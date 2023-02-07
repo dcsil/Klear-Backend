@@ -1,0 +1,17 @@
+{
+  "name": "klear-backend",
+  "version": "1.0.0",
+  "description": "Node backend for Klear",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node ./src/index.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-validator": "^6.12.2"
+  }
+}
