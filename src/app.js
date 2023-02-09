@@ -16,5 +16,6 @@ app.use(bodyParser.json());
 
 // Route endpoints
 app.use('/sampleRouteMiddleName/', sampleRoute);
+app.use('/testingDb/', sampleRoute)
 
 module.exports = app
