@@ -13,7 +13,7 @@ router.get("/helloBackend", function (req, res) {
 /* Just a testing function */
 router.get("/testingDb", function (req, res) { 
     console.log("pinging db")
-    dbConnection.query("SELECT * FROM cameras",
+    dbConnection.query("SELECT * FROM users",
     (err, results, fields) => {
       if (!err) {
         res.send(results);
