@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "test": "jest",
-    "start": "node ./src/index.js"
+    "start": "export NODE_ENV=production node ./src/index.js",
+    "dev": "export NODE_ENV=dev node ./src/index.js"
   },
   "license": "ISC",
   "dependencies": {
@@ -16,6 +17,8 @@
     "dotenv": "^16.0.3",
     "express": "^4.17.1",
     "express-validator": "^6.12.2",
-    "mysql2": "^3.1.2"
+    "mysql2": "^3.1.2",
+    "winston": "^3.8.2",
+    "winston-cloudwatch": "^6.1.1"
   }
 }
