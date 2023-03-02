@@ -6,7 +6,6 @@ const dbConnection = require('../config/dbConnection');
 
 // Get total cost of items in checkout cart.
 router.get("/helloBackend", function (req, res) {
-    Sentry.captureException(new Error("This is my fake error message"));
     console.log('got a request')
     return res.json({ hello: "Hello from the backend!"});
 });
