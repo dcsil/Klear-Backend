@@ -1,11 +1,12 @@
 const express = require("express");
 var router = express.Router();
+const Sentry = require("@sentry/node");
 const dbConnection = require('../config/dbConnection');
-
 
 
 // Get total cost of items in checkout cart.
 router.get("/helloBackend", function (req, res) {
+    Sentry.captureException(new Error("This is my fake error message"));
     console.log('got a request')
     return res.json({ hello: "Hello from the backend!"});
 });
@@ -18,7 +19,7 @@ router.get("/testingDb", function (req, res) {
       if (!err) {
         res.send(results);
       } else {
-        console.log(err);
+        Sentry.captureException(new Error("Something went wrong :/"));
       }
     });
 })
