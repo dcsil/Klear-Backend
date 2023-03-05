@@ -30,4 +30,4 @@ npm install
 
 # Make default .env if .env does not exist
 echo "==> Updating .env variables"
-cp -rn .env.example .env
+cp -rn .env.template .env
