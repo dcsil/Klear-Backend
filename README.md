@@ -1,3 +1,3 @@
 ## Setup
-1. npm install
+1. ./script/bootstrap
 2. npm start
