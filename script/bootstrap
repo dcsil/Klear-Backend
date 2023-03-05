@@ -17,8 +17,8 @@ fi
 cd "$DIR"
 pwd
 
-if [ "$(uname -s)" = "Darwin" ]; then
-  brew bundle check >/dev/null 2>&1  || {
+if [ "$(uname -s)" = "Darwin" ]; then # Check if is used on MacOS
+  brew bundle check >/dev/null 2>&1  || {  # Check if there is anything to install or upgrade in the Brewfile, output the error to stdout
     echo "==> Installing Homebrew dependencies…"
     brew bundle
   }
