@@ -27,3 +27,7 @@ fi
 # Install npm dependencies
 echo "==> Installing npm dependencies…"
 npm install
+
+# Make default .env if .env does not exist
+echo "==> Updating .env variables"
+cp -rn .env.example .env
