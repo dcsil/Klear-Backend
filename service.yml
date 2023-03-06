@@ -1,0 +1,16 @@
+tools:
+  exceptions: hhttps://55ab055ee588476e8f906d0a3167a3ad@o358880.ingest.sentry.io/4504765277143040
+  # logging: https://service.us2.sumologic.com/ui/?appName=dcsil-team-app
+  ci: https://github.com/dcsil/klear-backend/actions
+
+services:
+  # production: https://dcsil-team-app.herokuapp.com
+
+docs:
+  getting_started: https://github.com/dcsil/klear-backend
+
+commands:
+  bootstrap: bin/bootstrap
+  database: bin/rails db:create db:migrate
+  server: bin/rails server
+  test: bin/rails test
