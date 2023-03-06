@@ -13,4 +13,4 @@ commands:
   bootstrap: ./script/bootstrap
   database: bin/rails db:create db:migrate
   server: npm start
-  test: npm npm run test
+  test: npm run test
