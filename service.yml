@@ -14,6 +14,6 @@ docs:
 
 commands:
   bootstrap: ./script/bootstrap
-  database: bin/rails db:create db:migrate
+  database: mysql.server start && mysql -u "username" -p "password"
   server: npm start
   test: npm run test
