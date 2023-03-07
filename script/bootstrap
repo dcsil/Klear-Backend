@@ -31,3 +31,12 @@ npm install
 # Make default .env if .env does not exist
 echo "==> Updating .env variables"
 cp -rn .env.template .env
+
+# Create Mysql Database and Tables
+echo Setting up Mysql Database
+# Read Password
+echo -n Mysql Username (use root for default):
+read -s username
+echo
+# Run Command
+mysql -u $username -p < ./db.sql
