@@ -1,0 +1,19 @@
+tools:
+  exceptions: https://dcsil.sentry.io/projects/klear_frontend/?project=4504765118414848
+  logging: https://us-east-2.console.aws.amazon.com/cloudwatch/home?region=us-east-2#logsV2:log-groups/log-group/klear_app
+  ci: https://github.com/dcsil/klear-backend/actions
+
+services:
+  production: http://3.142.235.3:3000/
+  production_example: http://3.142.235.3:3000/sampleRouteMiddleName/helloBackend 
+  production_dashboard: https://us-east-2.console.aws.amazon.com/ec2/home?region=us-east-2#InstanceDetails:instanceId=i-08c3bea6c6c3fe832 
+  database: http://3.142.235.3/phpmyadmin/ 
+
+docs:
+  getting_started: https://github.com/dcsil/klear-backend
+
+commands:
+  bootstrap: ./script/bootstrap
+  database: mysql.server start && mysql -u "username" -p "password"
+  server: npm start
+  test: npm run test
