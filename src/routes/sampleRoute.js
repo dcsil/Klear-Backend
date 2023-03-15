@@ -6,8 +6,8 @@ const dbConnection = require('../config/dbConnection');
 
 // Get total cost of items in checkout cart.
 router.get("/helloBackend", function (req, res) {
-    // return res.json({ hello: "Hello from the backend!"});
-    return res.json({ hello: ""});
+    return res.json({ hello: "Hello from the backend!"});
+    // return res.json({ hello: ""});
 });
 
 /* Just a testing function */
