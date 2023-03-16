@@ -1,0 +1,10 @@
+{
+    "prod": {
+        "host": "",
+        "user": "",
+        "password": "",
+        "database": "",
+        "driver": "mysql",
+        "multipleStatements": true
+    }, "sql-file": true
+}

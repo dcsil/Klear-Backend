@@ -1,0 +1,10 @@
+{
+    "dev": {
+        "host": "YOUR HOST NAME, PROB LOCALHOST", 
+        "user": "USER_NAME",
+        "password": "YOUR_PASSWORD",
+        "database": "YOUR_DATABASE_NAME",
+        "driver": "mysql",
+        "multipleStatements": true
+    }, "sql-file": true
+}
