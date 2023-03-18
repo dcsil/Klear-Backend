@@ -4,6 +4,7 @@ var router = express.Router();
 const Sentry = require("@sentry/node");
 const dbConnection = require('../config/dbConnection');
 const mysql = require('mysql2')
+const generateAccessToken = require("../config/generateAccessToken")
 
 exports.register = async (req, res) => {
     const { first_name, last_name, email } = req.body
@@ -46,7 +47,8 @@ exports.login = async (req, res) => {
             const hashedPassword = result[0].password
             if (await bcrypt.compare(password, hashedPassword)) {
                 console.log("---------> Login Successful")
-                res.send(`${first_name} ${last_name} is logged in!`)
+                const token = generateAccessToken({user: email})   
+                res.json({accessToken: token})
             } 
             else {
                 console.log("---------> Password Incorrect")
