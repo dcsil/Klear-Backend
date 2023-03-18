@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS staff (
     staff_id int NOT NULL AUTO_INCREMENT,
     first_name varchar(20) NOT NULL,
     last_name varchar(20) NOT NULL,
-    email varchar(100) NOT NULL,
+    email varchar(100) NOT NULL UNIQUE,
     password varchar(100) NOT NULL,
     PRIMARY KEY (staff_id)
 );
