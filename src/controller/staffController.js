@@ -32,8 +32,26 @@ exports.register = async (req, res) => {
         })
 }
 
-exports.login = (req, res) => {
-    console.log("Hit this point")
-    console.log(req.body)
-    res.send("NOT IMPLEMENTED")
+exports.login = async (req, res) => {
+    const { first_name, last_name, email, password } = req.body;
+    const sqlSearch = "select * from staff where email = ?"
+    const search_query = mysql.format(sqlSearch,[email])
+    dbConnection.query (search_query, async (err, result) => {        
+        if (err) throw (err)
+        if (result.length == 0) {
+            console.log("--------> User does not exist")
+            res.sendStatus(404)
+        } 
+        else {
+            const hashedPassword = result[0].password
+            if (await bcrypt.compare(password, hashedPassword)) {
+                console.log("---------> Login Successful")
+                res.send(`${first_name} ${last_name} is logged in!`)
+            } 
+            else {
+                console.log("---------> Password Incorrect")
+                res.send("Password incorrect!")
+            }
+        }
+    })
 }
