@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config()
 
 const sampleRoute = require("./routes/sampleRoute");
-const staffRoute = require("./routes/authRoute");
+const authRoute = require("./routes/authRoute");
 
 const app = express();
 
@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 // Route endpoints
 app.use('/sampleRouteMiddleName/', sampleRoute);
-app.use('/', staffRoute);
+app.use('/', authRoute);
 
 
 module.exports = app
