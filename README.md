@@ -8,3 +8,7 @@
 - `db-migrate up --config ./database/config/dev.json` to run all migrations in order
 - `db-migrate down --config./database/config/dev.json` to drop all migrations
 - `mysql -u root -p` to log into mysql
+
+
+## Testing User
+- Use karen.smith@gmail.com with the password "pw" to login to a generic account. 

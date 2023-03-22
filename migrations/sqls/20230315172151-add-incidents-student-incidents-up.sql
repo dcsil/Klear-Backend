@@ -1,7 +1,7 @@
 /* Replace with your SQL commands */
 -- add data into this file 
 INSERT INTO staff (staff_id, first_name, last_name, email, password)
-VALUES (NULL, "Karen", "Smith", "karen.smith@gmail.com", "pw");
+VALUES (NULL, "Karen", "Smith", "karen.smith@gmail.com", "$2b$10$ras6/a2FVaMtYKdYdDmI8ew/29auRBZa0zbgM68oXWCYmwhZa452e");
 
 INSERT INTO students (student_id, first_name, last_name, age, contact_number, contact_name)
 VALUES (NULL, "Samantha", "King", 1, "6571111111", "John"),
