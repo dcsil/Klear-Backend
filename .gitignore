@@ -1,5 +1,5 @@
 node_modules
 package-lock.json
 *.env
-database/config/*
+database/config/dev.json
 database/config/prod.json
