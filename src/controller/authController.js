@@ -41,7 +41,7 @@ exports.login = async (req, res) => {
         if (err) throw (err)
         if (result.length == 0) {
             console.log("--------> User does not exist")
-            res.sendStatus(404)
+            res.sendStatus(401)
         } 
         else {
             const hashedPassword = result[0].password

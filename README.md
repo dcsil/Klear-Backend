@@ -44,3 +44,7 @@ For authentication, we use jwt to create an access token. For dev purposes, each
 - run ```require("crypto").randomBytes(64).toString("hex")```
 - paste the results in .env file under ACCESS_TOKEN_SECRET
 Note that each dev's token will be different since it's random. To debug, you can use jwt's website to do so. 
+Note that each dev's token will be different since it's random. To debug, you can use jwt's website to do so.
+
+### Debugging:
+- If any issues with connection to your database try adding: "socketPath": "/var/run/mysqld/mysqld.sock" under dev.json 
