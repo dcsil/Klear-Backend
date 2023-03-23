@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config()
 
 const sampleRoute = require("./routes/sampleRoute");
-const staffRoute = require("./routes/staffRoute");
+const staffRoute = require("./routes/authRoute");
 
 const app = express();
 

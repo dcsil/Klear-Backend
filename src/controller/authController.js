@@ -7,12 +7,12 @@ const mysql = require('mysql2')
 const generateAccessToken = require("../config/generateAccessToken")
 
 exports.register = async (req, res) => {
-    const { first_name, last_name, email } = req.body
+    const { firstName, lastName, email } = req.body
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const sqlSearch = "SELECT * FROM staff WHERE email = ?"
     const search_query = mysql.format(sqlSearch,[email])
     const sqlInsert = "INSERT INTO staff VALUES (NULL,?,?,?,?)"
-    const insert_query = mysql.format(sqlInsert,[first_name, last_name, email, hashedPassword])
+    const insert_query = mysql.format(sqlInsert,[firstName, lastName, email, hashedPassword])
  
         dbConnection.query (search_query, async (err, result) => {
             if (err) throw (err)
@@ -26,15 +26,15 @@ exports.register = async (req, res) => {
                 dbConnection.query (insert_query, (err, result)=> {
                     if (err) throw (err)
                     console.log ("--------> Created new User")
-                    console.log(result.insertId)
-                    res.sendStatus(201)
+                    const token = generateAccessToken({user: email})   
+                    res.json({accessToken: token})
                 })
             }
         })
 }
 
 exports.login = async (req, res) => {
-    const { first_name, last_name, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
     const sqlSearch = "select * from staff where email = ?"
     const search_query = mysql.format(sqlSearch,[email])
     dbConnection.query (search_query, async (err, result) => {        
