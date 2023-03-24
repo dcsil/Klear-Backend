@@ -4,6 +4,7 @@ const cors = require('cors');
 require('dotenv').config()
 
 const sampleRoute = require("./routes/sampleRoute");
+const authRoute = require("./routes/authRoute");
 
 const app = express();
 
@@ -17,5 +18,7 @@ app.use(bodyParser.json());
 
 // Route endpoints
 app.use('/sampleRouteMiddleName/', sampleRoute);
+app.use('/', authRoute);
+
 
 module.exports = app

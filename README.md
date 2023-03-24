@@ -2,10 +2,20 @@
 1. Make sure you have a MySQL username and password, and make sure the MySQL server is running. Run ```./script/bootstrap```.
 2. npm start
 
+## Database 
+### Prod database
+- can be accessed through: http://3.142.235.3/phpmyadmin/index.php
+- if developing in dev, use your own local database so we don't make changes we don't want to on prod
+- if you want to connect to the prod database go into your .env and change host to the prod host and the user to the correct user instead which would be: 3.142.235.3
+
+### Dev database
+- if not working then you might need to add this line in .env and database/config/dev.json: ```"socketPath": "/var/run/mysqld/mysqld.sock"``` 
+
 
 ## Migrations
 ### Set up 
 - Create a database/config/dev.json file and paste the following:
+```
 {
     "dev": {
         "host": "", 
@@ -16,6 +26,7 @@
         "multipleStatements": true
     }, "sql-file": true
 }
+```
 - Fill out the necessary information
 
 ### To run migrations
@@ -27,3 +38,13 @@
 
 ## Testing User
 - Use karen.smith@gmail.com with the password "pw" to login to a generic account. 
+## Authentication Serivce Set up
+For authentication, we use jwt to create an access token. For dev purposes, each dev will need to set up their own ACCESS_TOKEN_SECRET in their .env file. To do so:
+- run ```node```
+- run ```require("crypto").randomBytes(64).toString("hex")```
+- paste the results in .env file under ACCESS_TOKEN_SECRET
+Note that each dev's token will be different since it's random. To debug, you can use jwt's website to do so. 
+Note that each dev's token will be different since it's random. To debug, you can use jwt's website to do so.
+
+### Debugging:
+- If any issues with connection to your database try adding: "socketPath": "/var/run/mysqld/mysqld.sock" under dev.json 
