@@ -25,7 +25,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with: 
           node-version: '14.x'
 
@@ -44,5 +44,5 @@ jobs:
         with:
           coverageCommand: npm test -- --coverage
           coverageLocations: |
-            ${{github.workspace}}/coverage/coverage-final.json 
-            ${{github.workspace}}/coverage/lcov.info:lcov
+            ${{github.workspace}}/coverage/coverage-final.json
+            ${{github.workspace}}/server/coverage/lcov.info:lcov
