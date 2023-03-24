@@ -6,10 +6,11 @@ concurrency:
     cancel-in-progress: true
 
 on:
-    pull_request_target:
-        paths-ignore:
-            - 'docs/**'
-    workflow_dispatch:
+    push:
+      branches: [ "master" ]
+    pull_request:
+      branches: [ "master" ]
+      workflow_dispatch:
 
 jobs:
     coverage:
