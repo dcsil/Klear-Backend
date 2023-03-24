@@ -45,4 +45,4 @@ jobs:
           coverageCommand: npm test -- --coverage
           coverageLocations: |
             ${{github.workspace}}/coverage/coverage-final.json
-            ${{github.workspace}}/server/coverage/lcov.info:lcov
+            ${{github.workspace}}/coverage/coverage-final.json
