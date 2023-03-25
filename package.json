@@ -24,5 +24,15 @@
   },
   "devDependencies": {
     "jest": "^29.4.3"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "src/testignore"
+    ],
+    "collectCoverageFrom": [
+      "!**/node_modules/**",
+      "!migrations/**",
+      "!**/src/config/**"
+    ]
   }
 }
