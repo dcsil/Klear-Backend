@@ -4,7 +4,7 @@ var router = express.Router();
 const Sentry = require("@sentry/node");
 const dbConnection = require('../config/dbConnection');
 const mysql = require('mysql2')
-const generateAccessToken = require("../config/generateAccessToken")
+const generateAccessToken = require("../config/generateAccessToken").generateAccessToken
 
 exports.register = async (req, res) => {
     const { firstName, lastName, email } = req.body
@@ -13,8 +13,7 @@ exports.register = async (req, res) => {
     const search_query = mysql.format(sqlSearch,[email])
     const sqlInsert = "INSERT INTO staff VALUES (NULL,?,?,?,?)"
     const insert_query = mysql.format(sqlInsert,[firstName, lastName, email, hashedPassword])
- 
-        dbConnection.query (search_query, async (err, result) => {
+        dbConnection.query (search_query, (err, result) => {
             if (err) throw (err)
                 console.log("------> Search Results")
                 console.log(result.length)
@@ -34,7 +33,7 @@ exports.register = async (req, res) => {
 }
 
 exports.login = async (req, res) => {
-    const { firstName, lastName, email, password } = req.body;
+    const { email, password } = req.body;
     const sqlSearch = "select * from staff where email = ?"
     const search_query = mysql.format(sqlSearch,[email])
     dbConnection.query (search_query, async (err, result) => {        
