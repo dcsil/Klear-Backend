@@ -24,3 +24,4 @@ jobs:
               with:
                   annotations: failed-tests
                   test-script: npm test -- --coverage
+                  output: comment, report-markdown
