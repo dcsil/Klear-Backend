@@ -32,7 +32,9 @@
     "collectCoverageFrom": [
       "!**/node_modules/**",
       "!migrations/**",
-      "!**/src/config/**"
+      "!**/src/config/**",
+      "!**/**.json",
+      "src/**"
     ]
   }
 }
