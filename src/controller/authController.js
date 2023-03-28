@@ -2,10 +2,13 @@ const bcrypt = require('bcrypt')
 const Sentry = require('@sentry/node')
 const dbConnection = require('../config/dbConnection')
 const mysql = require('mysql2')
-const generateAccessToken = require('../config/generateAccessToken').generateAccessToken
+const generateAccessToken = require('../config/jwtHelper').generateAccessToken
 
 exports.register = async (req, res) => {
   const { firstName, lastName, email } = req.body
+  if (firstName === null || lastName === null || email === null) {
+    res.sendStatus(400)
+  }
   const hashedPassword = await bcrypt.hash(req.body.password, 10)
   const sqlSearch = 'SELECT * FROM staff WHERE email = ?'
   const searchQuery = mysql.format(sqlSearch, [email])
@@ -18,6 +21,7 @@ exports.register = async (req, res) => {
     if (result.length !== 0) {
       console.log('------> User already exists')
       res.sendStatus(409)
+      return
     } else {
       dbConnection.query(inserQuery, (err, result) => {
         if (err) throw (err)
@@ -31,6 +35,11 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   const { email, password } = req.body
+  console.log(email, password)
+  if (email == null || password == null) {
+    res.sendStatus(400)
+    return
+  }
   const sqlSearch = 'select * from staff where email = ?'
   const searchQuery = mysql.format(sqlSearch, [email])
   dbConnection.query(searchQuery, async (err, result) => {
