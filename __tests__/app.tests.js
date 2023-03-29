@@ -11,13 +11,3 @@ function delay() {
 beforeAll(async () => {
   await delay();
 });
-
-describe('Integration test suite', () => {
-  it('Test sampleRoute', async () => {
-    const response = await request(app).get('/sampleRouteMiddleName/helloBackend');
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(
-      { hello: "Hello from the backend!"}
-    );
-  });
-});

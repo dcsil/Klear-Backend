@@ -3,7 +3,6 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 require('dotenv').config()
 
-const sampleRoute = require("./routes/sampleRoute")
 const studentRoute = require("./routes/studentRoute")
 const authRoute = require('./routes/authRoute')
 
@@ -18,7 +17,6 @@ app.use(express.urlencoded({
 }))
 
 // Route endpoints
-app.use('/sampleRouteMiddleName/', sampleRoute);
 app.use('/student/', studentRoute);
 app.use('/', authRoute)
 
