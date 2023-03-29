@@ -3,6 +3,11 @@ var router = express.Router();
 const Sentry = require("@sentry/node");
 const dbConnection = require('../config/dbConnection');
 
+/* Health check */
+router.get("/health", function(req,res){
+    return res.json({ hello: 'Hello from the backend!' })
+})
+
 /* Get all students */
 router.get("/all", function (req, res) { 
     dbConnection.query("SELECT * FROM students",
