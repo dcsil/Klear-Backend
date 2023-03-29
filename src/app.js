@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 require('dotenv').config()
 
-const sampleRoute = require("./routes/sampleRoute");
+const sampleRoute = require("./routes/sampleRoute")
 const studentRoute = require("./routes/studentRoute")
 const authRoute = require('./routes/authRoute')
 
