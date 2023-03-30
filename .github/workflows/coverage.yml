@@ -27,8 +27,8 @@ jobs:
                   test-script: npm test -- --coverage
                   output: comment, report-markdown
 
-        name: Code Climate Coverage Report
-        steps:
+        # name: Code Climate Coverage Report
+        # steps:
             - name: Test & publish code coverage
               uses: paambaati/codeclimate-action@v3.2.0
               env:
