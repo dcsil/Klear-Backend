@@ -5,7 +5,13 @@ function generateAccessToken (user) {
 }
 
 function verifyAccessToken(accessToken) {
-    return jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+    var result = true;
+    jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, function (err, decoded) {
+      if (err){
+        result = false;
+      }
+    });
+    return result;
 }
 
 module.exports = { generateAccessToken, verifyAccessToken }
