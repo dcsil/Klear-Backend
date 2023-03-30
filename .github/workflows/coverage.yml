@@ -37,3 +37,4 @@ jobs:
                 coverageCommand: npm run coverage
                 # coverageLocations:
                 #   ${{github.workspace}}/coverage/lcov.info:lcov
+                
