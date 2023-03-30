@@ -49,10 +49,7 @@
     ],
     "coverageReporters": [
       [
-        "lcov",
-        {
-          "projectRoot": ".."
-        }
+        "lcov"
       ]
     ]
     },
