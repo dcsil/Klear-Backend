@@ -35,5 +35,4 @@ jobs:
                 CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
               with:
                 coverageLocations: |
-                  ${{github.workspace}}/client/coverage/lcov.info:lcov
-                  ${{github.workspace}}/server/coverage/lcov.info:lcov
+                  ${{github.workspace}}/coverage/lcov.info:lcov
