@@ -2,35 +2,38 @@ const Sentry = require('@sentry/node')
 const dbConnection = require('../config/dbConnection')
 const mysql = require('mysql2')
 const { resolve } = require('@sentry/utils')
+const verifyAccessToken = require('../config/jwtHelper').verifyAccessToken
+
 
 exports.fetchAll = async (req, res) => {
-    console.log("reached")
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (!verifyAccessToken(token)) return res.sendStatus(401)
     const sqlQuery = 'SELECT * FROM incidents where status = 0 OR status = 1'
     dbConnection.query(sqlQuery, (err, result) => {
         if (err) Sentry.captureException(new Error(err))
-        console.log(result)
         return res.json(result)
     })
 }
 
 exports.fetchOne = async (req, res) => {
     console.log("fetch one",req.params)
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (!verifyAccessToken(token)) return res.sendStatus(401)
     const { incidentId } = req.params 
     const sqlQuery = 'SELECT * FROM incidents where incident_id = ?'
     const query = mysql.format(sqlQuery, [incidentId])
     dbConnection.query(query, async (err, result) => {
         if (err) Sentry.captureException(new Error(err))
         const students = await findRelatedStudents(incidentId)
-        console.log(students)
         result[0].students = students
-        console.log("returning result", result[0])
         return res.json(result[0])
     })
 }
 
 exports.add = async (req, res) => {
     const { event, date, imageUrl } = req.body
-    console.log(event, date, imageUrl)
     if (event == null || date == null || imageUrl == null) {
         return res.sendStatus(400)
     }
@@ -39,7 +42,6 @@ exports.add = async (req, res) => {
     const studentId = await getRandomStudent()
 
     const result = await addStudentIncident(studentId, incidentId)
-    console.log(incidentId, studentId, result)
     if (result > 0) {
         return res.send("Incident added successfully")
     } else {
@@ -89,16 +91,12 @@ function findRelatedStudents(incidentId) {
     return new Promise((resolve, reject) => {
         dbConnection.query(query, (err, result) => {
             if (err) Sentry.captureException(new Error(err))
-            console.log(result)
             if (result.length > 0) {
-                console.log("running in query to find student name")
-                console.log(result[0].student_id)
                 const student = 'SELECT first_name, last_name FROM students WHERE student_id=?'
                 const studentQuery = mysql.format(student, [result[0].student_id])
-                console.log("studnet query", studentQuery)
                 dbConnection.query(studentQuery, (err, result) => {
                     if (err) Sentry.captureException(new Error(err))
-                    console.log(result)
+                    console.log("Successfully found the related student")
                     resolve(result)
                 })
             } else {
