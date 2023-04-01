@@ -19,7 +19,7 @@ exports.all = (req, res) => {
       if (!err) {
         res.send(results);
       } else {
-        Sentry.captureException(new Error("Something went wrong :/"));
+        Sentry.captureException(new Error("When getting all students: "+err));
       }
     });
 };
@@ -34,7 +34,7 @@ exports.info = (req, res) => {
       if (!err) {
         res.send(results);
       } else {
-        Sentry.captureException(new Error("Something went wrong :/"));
+        Sentry.captureException(new Error("When getting student info: "+err));
       }
     });
 };
@@ -53,7 +53,7 @@ exports.history = (req, res) => {
             results.push(incidents[i]);
         }
       } else {
-        Sentry.captureException(new Error("Something went wrong :/"));
+        Sentry.captureException(new Error("When getting student incidents: "+ err));
       }
     });
     dbConnection.query("SELECT * FROM activities WHERE student_id = " + req.body.student_id,
@@ -65,7 +65,7 @@ exports.history = (req, res) => {
         }
         res.send(results);
       } else {
-        Sentry.captureException(new Error("Something went wrong :/"));
+        Sentry.captureException(new Error("When getting student activities: "+ err));
       }
     });
     
