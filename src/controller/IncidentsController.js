@@ -17,7 +17,6 @@ exports.fetchAll = async (req, res) => {
 }
 
 exports.fetchOne = async (req, res) => {
-    console.log("fetch one",req.params)
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
     if (!verifyAccessToken(token)) return res.sendStatus(401)
