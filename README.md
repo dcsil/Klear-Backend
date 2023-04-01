@@ -48,3 +48,9 @@ Note that each dev's token will be different since it's random. To debug, you ca
 
 ### Debugging:
 - If any issues with connection to your database try adding: "socketPath": "/var/run/mysqld/mysqld.sock" under dev.json 
+
+
+### Production
+- ```sudo systemctl start YourAppName.service``` to start the server
+- ```sudo systemctl stop YourAppName.service``` to stop the server
+
