@@ -29,9 +29,8 @@ exports.info = (req, res) => {
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
   if (!verifyAccessToken(token)) return res.sendStatus(401)
-  if (!req.body.hasOwnProperty("student_id")) return res.sendStatus(400)
-  if (req.body.student_id == null) return res.sendStatus(400)
-  dbConnection.query("SELECT * FROM students WHERE student_id = " + req.body.student_id,
+  if (!req.params.student_id == null) return res.sendStatus(400)
+  dbConnection.query("SELECT * FROM students WHERE student_id = " + req.params.student_id,
   (err, results, fields) => {
     if (!err) {
       res.send(results);
@@ -46,11 +45,10 @@ exports.history = (req, res) => {
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
   if (!verifyAccessToken(token)) return res.sendStatus(401)
-  if (!req.body.hasOwnProperty("student_id")) return res.sendStatus(400)
-  if (req.body.student_id == null) return res.sendStatus(400)
+  if (req.params.student_id == null) return res.sendStatus(400)
 
   const results = [];
-  dbConnection.query("SELECT * FROM `student_incidents` JOIN incidents ON student_incidents.incident_id = incidents.incident_id WHERE student_id = " + req.body.student_id,
+  dbConnection.query("SELECT * FROM `student_incidents` JOIN incidents ON student_incidents.incident_id = incidents.incident_id WHERE student_id = " + req.params.student_id,
   (err, incidents, fields) => {
     if (!err) {
       for (var i = 0; i < incidents.length; i++) {
@@ -61,7 +59,7 @@ exports.history = (req, res) => {
       Sentry.captureException(new Error("When getting student incidents: "+ err));
     }
   });
-  dbConnection.query("SELECT * FROM activities WHERE student_id = " + req.body.student_id,
+  dbConnection.query("SELECT * FROM activities WHERE student_id = " + req.params.student_id,
   (err, activities, fields) => {
     if (!err) {
       for (var i = 0; i < activities.length; i++) {

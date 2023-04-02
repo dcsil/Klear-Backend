@@ -51,6 +51,9 @@ describe('Integration tests for getting all students', () => {
 
   it('should return a list of students', async function () {
     results = []
+    mysqlMock.expects('query')
+      .atLeast(1)
+      .callsArgWith(1, null, results)
     const response = await request(app).get('/student/all')
     expect(response.statusCode).toBe(200)
 
@@ -76,24 +79,22 @@ describe('Integration tests for getting student info', () => {
 
   it('should send error when no student id provided', async function () {
     results = []
-    id = {}
-    const response = await (await request(app).get('/student/info').send(id))
-    expect(response.statusCode).toBe(400)
-  })
-
-  it('should send error when student id is null', async function () {
-    results = []
-    id = {}
-    const response = await (await request(app).get('/student/info').send(id))
-    expect(response.statusCode).toBe(400)
+    mysqlMock.expects('query')
+      .atLeast(1)
+      .callsArgWith(1, null, results)
+    const response = await (await request(app).get('/student/info'))
+    expect(response.statusCode).toBe(404)
   })
 
   it('should return student info', async function () {
     results = []
+    mysqlMock.expects('query')
+      .atLeast(1)
+      .callsArgWith(1, null, results)
     id = {
       student_id: "1",
     }
-    const response = await (await request(app).get('/student/info').send(id))
+    const response = await (await request(app).get('/student/info/1'))
     expect(response.statusCode).toBe(200)
 
   })
@@ -118,24 +119,23 @@ describe('Integration tests for getting student history', () => {
 
   it('should send error when no student id provided', async function () {
     results = []
+    mysqlMock.expects('query')
+      .atLeast(1)
+      .callsArgWith(1, null, results)
     id = {}
-    const response = await (await request(app).get('/student/history').send(id))
-    expect(response.statusCode).toBe(400)
-  })
-
-  it('should send error when student id is null', async function () {
-    results = []
-    id = {}
-    const response = await (await request(app).get('/student/history').send(id))
-    expect(response.statusCode).toBe(400)
+    const response = await (await request(app).get('/student/history'))
+    expect(response.statusCode).toBe(404)
   })
 
   it('should return student history', async function () {
     results = []
+    mysqlMock.expects('query')
+      .atLeast(1)
+      .callsArgWith(1, null, results)
     id = {
       student_id: "1",
     }
-    const response = await (await request(app).get('/student/history').send(id))
+    const response = await (await request(app).get('/student/history/1'))
     expect(response.statusCode).toBe(200)
 
   })
