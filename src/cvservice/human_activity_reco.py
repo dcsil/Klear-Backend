@@ -14,8 +14,8 @@ from tqdm import tqdm
 import subprocess
 
 if __name__ == '__main__':
-    input_file = 'kids_crying.mp4'
-    # input_file = 0
+    # input_file = 'kids_crying.mp4'
+    input_file = 0
 
     args = {"classes": "action_recognition_kinetics.txt", "model": "resnet-34_kinetics.onnx", "input": input_file}
 
