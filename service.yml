@@ -5,7 +5,6 @@ tools:
 
 services:
   production: http://3.142.235.3:3000/
-  production_example: http://3.142.235.3:3000/sampleRouteMiddleName/helloBackend 
   production_dashboard: https://us-east-2.console.aws.amazon.com/ec2/home?region=us-east-2#InstanceDetails:instanceId=i-08c3bea6c6c3fe832 
   database: http://3.142.235.3/phpmyadmin/ 
 
