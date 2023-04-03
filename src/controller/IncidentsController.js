@@ -9,7 +9,14 @@ exports.fetchAll = async (req, res) => {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
     if (!verifyAccessToken(token)) return res.sendStatus(401)
-    const sqlQuery = 'SELECT * FROM incidents where status = 0 OR status = 1'
+    const { active } = req.params
+    let sqlQuery
+    if (active == 0) {
+        sqlQuery = 'SELECT * FROM incidents where status = 0 OR status = 1'
+    } else {
+        sqlQuery = 'SELECT * FROM incidents where status is NULL'
+    }
+    console.log(sqlQuery)
     dbConnection.query(sqlQuery, (err, result) => {
         if (err) Sentry.captureException(new Error(err))
         return res.json(result)
