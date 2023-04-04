@@ -3,7 +3,7 @@ const dbConnection = require('../config/dbConnection')
 const mysql = require('mysql2')
 const { resolve } = require('@sentry/utils')
 const verifyAccessToken = require('../config/jwtHelper').verifyAccessToken
-
+const jwt = require('jsonwebtoken')
 
 exports.fetchAll = async (req, res) => {
     const authHeader = req.headers['authorization']
@@ -53,6 +53,34 @@ exports.add = async (req, res) => {
     } else {
         return res.send(400)
     }
+}
+
+exports.resolve = async (req, res) => {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (!verifyAccessToken(token)) return res.sendStatus(401)
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+    var email = decoded.user
+    const staffId = await getStaffId(email)
+    const { incidentId } = req.body
+    const sqlQuery = 'UPDATE incidents SET status = 0, resolved_user = ? WHERE incident_id = ?'
+    const query = mysql.format(sqlQuery, [staffId, incidentId])
+    dbConnection.query(query, async (err, result) => {
+        if (err) Sentry.captureException(new Error(err))
+        else return res.send("Incident marked resolved")
+    })
+}
+
+function getStaffId(email) {
+    const staffQuery = 'SELECT staff_id FROM staff WHERE email = ?'
+    const query = mysql.format(staffQuery, [email])
+    return new Promise((resolve, reject) => {
+        dbConnection.query(query, async (err, result) => {
+        if (err) Sentry.captureException(new Error(err))
+        console.log("Found the staff!")
+        resolve(result[0].staff_id)
+        })
+    })
 }
 
 function addIncident(event, date, imageUrl) {
