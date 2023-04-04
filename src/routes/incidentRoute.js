@@ -6,5 +6,6 @@ const cvIncidentsController = require('../controller/IncidentsController')
 router.post('/incidents/add', cvIncidentsController.add)
 router.get('/incidents/all/:active', cvIncidentsController.fetchAll)
 router.get('/incidents/get/:incidentId', cvIncidentsController.fetchOne)
+router.post('/incidents/resolve', cvIncidentsController.resolve)
 
 module.exports = router
