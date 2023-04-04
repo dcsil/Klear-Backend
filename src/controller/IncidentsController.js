@@ -62,9 +62,9 @@ exports.resolve = async (req, res) => {
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
     var email = decoded.user
     const staffId = await getStaffId(email)
-    const { incidentId } = req.body
-    const sqlQuery = 'UPDATE incidents SET status = 0, resolved_user = ? WHERE incident_id = ?'
-    const query = mysql.format(sqlQuery, [staffId, incidentId])
+    const { status, incidentId } = req.body
+    const sqlQuery = 'UPDATE incidents SET status = ?, resolved_user = ? WHERE incident_id = ?'
+    const query = mysql.format(sqlQuery, [status, staffId, incidentId])
     dbConnection.query(query, async (err, result) => {
         if (err) Sentry.captureException(new Error(err))
         else return res.send("Incident marked resolved")
