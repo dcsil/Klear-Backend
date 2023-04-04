@@ -16,7 +16,6 @@ exports.fetchAll = async (req, res) => {
     } else {
         sqlQuery = 'SELECT * FROM incidents where status is NULL'
     }
-    console.log(sqlQuery)
     dbConnection.query(sqlQuery, (err, result) => {
         if (err) Sentry.captureException(new Error(err))
         return res.json(result)
@@ -28,7 +27,10 @@ exports.fetchOne = async (req, res) => {
     const token = authHeader && authHeader.split(' ')[1]
     if (!verifyAccessToken(token)) return res.sendStatus(401)
     const { incidentId } = req.params 
-    const sqlQuery = 'SELECT * FROM incidents where incident_id = ?'
+    const sqlQuery = 
+        'SELECT incident_id, event, date, status, screenshot, first_name, ' +
+        'last_name FROM incidents LEFT JOIN staff ON resolved_user = staff_id ' +
+        'where incident_id = ?'
     const query = mysql.format(sqlQuery, [incidentId])
     dbConnection.query(query, async (err, result) => {
         if (err) Sentry.captureException(new Error(err))
