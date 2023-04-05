@@ -17,6 +17,10 @@ import json
 import os
 import time
 
+APP_ID = "9ea06b9a-1433-4c15-ba13-3e8c70a63f52"
+AUTH = "NTUzZTY3MWUtNDRkMC00MTg2LWFjZmItMDIwZTlkMmNiMWFm"
+
+
 if __name__ == '__main__':
     input_file = 'kids_crying.mp4'
     # input_file = 0
@@ -79,9 +83,9 @@ if __name__ == '__main__':
                 print(x.text)
 
                 header = {"Content-Type": "application/json; charset=utf-8",
-                          "Authorization": "Basic NTUzZTY3MWUtNDRkMC00MTg2LWFjZmItMDIwZTlkMmNiMWFm"}
+                          "Authorization": "Basic " + AUTH}
 
-                payload = {"app_id": "9ea06b9a-1433-4c15-ba13-3e8c70a63f52",
+                payload = {"app_id": APP_ID,
                            "included_segments": ["Subscribed Android Users"],
                            "contents": {"en": "Incident Detected: " + label}}
 
