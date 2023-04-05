@@ -12,9 +12,9 @@ exports.fetchAll = async (req, res) => {
     const { active } = req.params
     let sqlQuery
     if (active == 0) {
-        sqlQuery = 'SELECT * FROM incidents where status = 0 OR status = 1'
+        sqlQuery = 'SELECT * FROM incidents where status = 0 OR status = 1 ORDER BY date DESC'
     } else {
-        sqlQuery = 'SELECT * FROM incidents where status is NULL'
+        sqlQuery = 'SELECT * FROM incidents where status is NULL ORDER BY date DESC'
     }
     dbConnection.query(sqlQuery, (err, result) => {
         if (err) Sentry.captureException(new Error(err))
