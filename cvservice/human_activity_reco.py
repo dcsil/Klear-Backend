@@ -5,7 +5,6 @@ import argparse
 import imutils
 import cv2
 
-
 from glob import glob
 
 import IPython.display as ipd
@@ -14,6 +13,7 @@ from tqdm import tqdm
 import subprocess
 import requests
 from datetime import datetime
+import json
 
 if __name__ == '__main__':
     # input_file = 'kids_crying.mp4'
@@ -60,7 +60,10 @@ if __name__ == '__main__':
             label = CLASSES[np.argmax(outputs)]
             print(label)
             if label == 'crying' or label == 'jogging':
-                url = ''
+                path = '../upload'
+                filename = label + str(datetime.now())
+                cv2.imwrite(filename,path)
+                url = '<domain>:3000/incidents/add'
                 incident = {'event': label, 'date': datetime.now(), }
                 x = requests.post(url, json=incident)
 
