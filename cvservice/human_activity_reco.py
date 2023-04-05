@@ -64,7 +64,7 @@ if __name__ == '__main__':
             if label == 'crying' or label == 'jogging':
                 filename = '../upload' + label + str(datetime.now()) + '.jpg'
                 print(cv2.imwrite(filename, frame))
-                url = 'http://prod:3000/incidents/add'
+                url = 'http://3.142.235.3:3000'
                 incident = {'event': label, 'date': str(datetime.now()), 'imageUrl': filename[9:] }
                 x = requests.post(url, json=incident)
 
