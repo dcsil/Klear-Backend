@@ -12,6 +12,8 @@ import IPython.display as ipd
 from tqdm import tqdm
 
 import subprocess
+import requests
+from datetime import datetime
 
 if __name__ == '__main__':
     # input_file = 'kids_crying.mp4'
@@ -57,6 +59,20 @@ if __name__ == '__main__':
         if outputs_sorted[-1] >= 1.3* outputs_sorted[-2]:
             label = CLASSES[np.argmax(outputs)]
             print(label)
+            if label == 'crying' or label == 'jogging':
+                url = ''
+                incident = {'event': label, 'date': datetime.now(), }
+                x = requests.post(url, json=incident)
+
+                header = {"Content-Type": "application/json; charset=utf-8",
+                          "Authorization": "Basic NTUzZTY3MWUtNDRkMC00MTg2LWFjZmItMDIwZTlkMmNiMWFm"}
+
+                payload = {"app_id": "9ea06b9a-1433-4c15-ba13-3e8c70a63f52",
+                           "included_segments": ["Subscribed Users"],
+                           "contents": {"en": "Incident Detected"}}
+
+                req = requests.post("https://onesignal.com/api/v1/notifications", headers=header,
+                                    data=json.dumps(payload))
         else:
             label = ''
 
