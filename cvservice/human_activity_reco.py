@@ -72,7 +72,7 @@ if __name__ == '__main__':
                           "Authorization": "Basic NTUzZTY3MWUtNDRkMC00MTg2LWFjZmItMDIwZTlkMmNiMWFm"}
 
                 payload = {"app_id": "9ea06b9a-1433-4c15-ba13-3e8c70a63f52",
-                           "included_segments": ["Subscribed Users"],
+                           "included_segments": ["Subscribed Android Users"],
                            "contents": {"en": "Incident Detected"}}
 
                 req = requests.post("https://onesignal.com/api/v1/notifications", headers=header,
