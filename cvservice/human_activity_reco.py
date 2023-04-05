@@ -14,10 +14,12 @@ import subprocess
 import requests
 from datetime import datetime
 import json
+import os
+import time
 
 if __name__ == '__main__':
-    # input_file = 'kids_crying.mp4'
-    input_file = 0
+    input_file = 'kids_crying.mp4'
+    # input_file = 0
 
     args = {"classes": "action_recognition_kinetics.txt", "model": "resnet-34_kinetics.onnx", "input": input_file}
 
@@ -60,11 +62,10 @@ if __name__ == '__main__':
             label = CLASSES[np.argmax(outputs)]
             print(label)
             if label == 'crying' or label == 'jogging':
-                path = '../upload'
-                filename = label + str(datetime.now())
-                cv2.imwrite(filename,path)
-                url = '<domain>:3000/incidents/add'
-                incident = {'event': label, 'date': datetime.now(), }
+                filename = '../upload' + label + str(datetime.now()) + '.jpg'
+                print(cv2.imwrite(filename, frame))
+                url = 'http://prod:3000/incidents/add'
+                incident = {'event': label, 'date': str(datetime.now()), 'imageUrl': filename[9:] }
                 x = requests.post(url, json=incident)
 
                 header = {"Content-Type": "application/json; charset=utf-8",
@@ -76,6 +77,8 @@ if __name__ == '__main__':
 
                 req = requests.post("https://onesignal.com/api/v1/notifications", headers=header,
                                     data=json.dumps(payload))
+                print("notification", req)
+                time.sleep(180)
         else:
             label = ''
 
