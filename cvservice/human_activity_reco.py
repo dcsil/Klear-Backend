@@ -16,12 +16,16 @@ from datetime import datetime
 import json
 import os
 import time
+from dotenv import load_dotenv
+from pathlib import Path
 
-APP_ID = "9ea06b9a-1433-4c15-ba13-3e8c70a63f52"
-AUTH = "NTUzZTY3MWUtNDRkMC00MTg2LWFjZmItMDIwZTlkMmNiMWFm"
-
+dotenv_path = Path('../.env')
+load_dotenv(dotenv_path=dotenv_path)
+APP_ID = os.getenv('APP_ID')
+AUTH = os.getenv('AUTH')
 
 if __name__ == '__main__':
+    print(APP_ID, AUTH)
     input_file = 'kids_crying.mp4'
     # input_file = 0
 
