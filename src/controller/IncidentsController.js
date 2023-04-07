@@ -35,7 +35,7 @@ exports.fetchOne = async (req, res) => {
     const query = mysql.format(sqlQuery, [incidentId])
     dbConnection.query(query, async (err, result) => {
         if (err) Sentry.captureException(new Error(err))
-        const students = await findRelatedStudents(incidentId)
+        const students = await incidentMethods.findRelatedStudents(incidentId)
         result[0].students = students
         return res.json(result[0])
     })
@@ -62,10 +62,16 @@ exports.resolve = async (req, res) => {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
     if (!verifyAccessToken(token)) return res.sendStatus(401)
+
+    const { status, incidentId } = req.body
+    if (status == null || incidentId == null) res.sendStatus(400)
+
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
     var email = decoded.user
-    const staffId = await getStaffId(email)
-    const { status, incidentId } = req.body
+    const staffId = await incidentMethods.getStaffId(email)
+    if (staffId == null) {
+        return res.send(400)
+    }
     const sqlQuery = 'UPDATE incidents SET status = ?, resolved_user = ? WHERE incident_id = ?'
     const query = mysql.format(sqlQuery, [status, staffId, incidentId])
     dbConnection.query(query, async (err, result) => {
