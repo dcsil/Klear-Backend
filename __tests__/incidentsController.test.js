@@ -215,6 +215,7 @@ describe('Tests for resolving an incident', () => {
     })
 
     it('should fail to resolve if body is empty', async () => {
+        sinon.stub(incidentHelper, "getStaffId").returns(null)
         const response = await request(app).post('/incidents/resolve')
         expect(response.text).toBe('Bad Request')
     })

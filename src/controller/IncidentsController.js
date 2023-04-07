@@ -64,7 +64,7 @@ exports.resolve = async (req, res) => {
     if (!verifyAccessToken(token)) return res.sendStatus(401)
 
     const { status, incidentId } = req.body
-    if (status == null || incidentId == null) res.sendStatus(400)
+    if (status == null || incidentId == null) return res.sendStatus(400)
 
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
     var email = decoded.user
