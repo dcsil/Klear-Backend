@@ -5,6 +5,7 @@ const dbConnection = require('../src/config/dbConnection')
 const app = require('../src/app')
 const jwt = require('jsonwebtoken')
 const jwtHelper = require('../src/config/jwtHelper')
+const incidentHelper = require('../src/controller/helpers/incidentHelper')
 
 function delay () {
     return new Promise((resolve, reject) => {
@@ -99,7 +100,6 @@ describe('Tests for fetch all', () => {
 //         const stub = sinon.stub(jwt, 'verify').callsFake(() => {
 //             return true
 //         })
-//         helperMock = sinon.mock(helpers)
 //     })
 
 //     afterEach(() => {
@@ -114,7 +114,7 @@ describe('Tests for fetch all', () => {
 //             first_name: 'Hi',
 //             last_name: 'Name'
 //         }]
-
+//         sinon.stub(incidentHelper, "findRelatedStudents").resolves(studentList);
 //         result = [{
 //             incident_id: 1,
 //             event: 'falling',
@@ -128,20 +128,53 @@ describe('Tests for fetch all', () => {
 //             .atLeast(1)
 //             .callsArgWith(1, null, result)
 
-//         // helperMock.expects('findRelatedStudents')
-//         //     .atLeast(1)
-//         //     .callsArgWith(1, null, students)
-
-//         const studentStub = sinon.stub(helpers, 'findRelatedStudents').callsFake(() => {
-//             return studentList
-//         })
-
-//         mysqlMock.expects('query')
-//             .atLeast(1)
-//             .callsArgWith(1, null, studentList)
-        
 //         const response = await request(app).get('/incidents/get/1')
 //         expect(response.statusCode).toBe(200)
 //         expect(response.body).toBe(result)
 //     })
 // })
+
+describe('should add an incident correctly', () => {
+    const sandbox = sinon.createSandbox()
+    let mysqlMock
+
+    
+    beforeEach(() => {
+        mysqlMock = sinon.mock(dbConnection)
+        const stub = sinon.stub(jwt, 'verify').callsFake(() => {
+            return true
+        })
+    })
+
+    afterEach(() => {
+        sinon.reset()
+        sinon.restore()
+        sandbox.restore()
+    })
+
+    it('should return bad request with empty body', async () => {
+        sinon.stub(incidentHelper, "getRandomStudent").resolves(1);
+        sinon.stub(incidentHelper, "addIncident").resolves(1);
+        sinon.stub(incidentHelper, "addStudentIncident").resolves(1);
+        const response = await request(app).post('/incidents/add')
+
+        expect(response.text).toBe('Bad Request')
+
+    })
+
+    it('should return properly with good headers', async () => {
+        sinon.stub(incidentHelper, "getRandomStudent").resolves(1);
+        sinon.stub(incidentHelper, "addIncident").resolves(1);
+        sinon.stub(incidentHelper, "addStudentIncident").resolves(1);
+        const payload = {
+            event: 'fall',
+            date: '2023-03-16 11:38:17',
+            imageUrl: '1.jpeg'
+        }
+        const response = await request(app).post('/incidents/add')
+                                           .send(payload)
+
+        expect(response.text).toBe('Incident added successfully')
+
+    })
+})
