@@ -72,9 +72,9 @@ function findRelatedStudents(incidentId) {
 }
 
 module.exports = {
+    getStaffId,
+    addIncident,
     findRelatedStudents,
-    addStudentIncident,
-    addIncident, 
     getRandomStudent,
-    getStaffId
+    addStudentIncident
 }

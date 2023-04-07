@@ -6,6 +6,7 @@ const app = require('../src/app')
 const jwt = require('jsonwebtoken')
 const jwtHelper = require('../src/config/jwtHelper')
 const incidentHelper = require('../src/controller/helpers/incidentHelper')
+const incidentController = require('../src/controller/IncidentsController')
 
 function delay () {
     return new Promise((resolve, reject) => {
@@ -23,10 +24,11 @@ beforeAll(async () => {
 describe('Tests for fetch all', () => {
     const sandbox = sinon.createSandbox()
     let mysqlMock
-
+    let getRandomStudentMock
     
     beforeEach(() => {
         mysqlMock = sinon.mock(dbConnection)
+        getRandomStudentMock = sinon.mock(incidentHelper)
     })
 
     afterEach(() => {
@@ -137,10 +139,11 @@ describe('Tests for fetch all', () => {
 describe('should add an incident correctly', () => {
     const sandbox = sinon.createSandbox()
     let mysqlMock
+    let helper
 
-    
     beforeEach(() => {
         mysqlMock = sinon.mock(dbConnection)
+        helper = sinon.mock(incidentController)
         const stub = sinon.stub(jwt, 'verify').callsFake(() => {
             return true
         })
@@ -153,19 +156,25 @@ describe('should add an incident correctly', () => {
     })
 
     it('should return bad request with empty body', async () => {
-        sinon.stub(incidentHelper, "getRandomStudent").resolves(1);
-        sinon.stub(incidentHelper, "addIncident").resolves(1);
-        sinon.stub(incidentHelper, "addStudentIncident").resolves(1);
         const response = await request(app).post('/incidents/add')
-
         expect(response.text).toBe('Bad Request')
 
     })
 
     it('should return properly with good headers', async () => {
+
+        // helper.expects('addIncident')
+        //     .atLeast(1)
+        //     .callsArgWith(1, null, 1)
+        
+        // helper.expects('getRandomStudent')
+        //     .atLeast(1)
+        //     .callsArgWith(1, null, 1)
+        
         sinon.stub(incidentHelper, "getRandomStudent").resolves(1);
-        sinon.stub(incidentHelper, "addIncident").resolves(1);
+        sinon.stub(incidentHelper, "addIncident").returns(1);
         sinon.stub(incidentHelper, "addStudentIncident").resolves(1);
+        sinon.stub(incidentHelper, "findRelatedStudents").resolves(1);
         const payload = {
             event: 'fall',
             date: '2023-03-16 11:38:17',

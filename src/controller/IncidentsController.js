@@ -4,7 +4,7 @@ const mysql = require('mysql2')
 const { resolve } = require('@sentry/utils')
 const verifyAccessToken = require('../config/jwtHelper').verifyAccessToken
 const jwt = require('jsonwebtoken')
-const { findRelatedStudents, getRandomStudent, getStaffId, addIncident, addStudentIncident } = require('./helpers/incidentHelper')
+const incidentMethods = require('./helpers/incidentHelper')
 
 exports.fetchAll = async (req, res) => {
     const authHeader = req.headers['authorization']
@@ -47,10 +47,10 @@ exports.add = async (req, res) => {
         return res.sendStatus(400)
     }
 
-    const incidentId = await addIncident(event, date, imageUrl)
-    const studentId = await getRandomStudent()
+    const incidentId = await incidentMethods.addIncident(event, date, imageUrl)
+    const studentId = await incidentMethods.getRandomStudent()
 
-    const result = await addStudentIncident(studentId, incidentId)
+    const result = await incidentMethods.addStudentIncident(studentId, incidentId)
     if (result > 0) {
         return res.send("Incident added successfully")
     } else {
