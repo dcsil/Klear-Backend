@@ -69,6 +69,11 @@ describe('Integration tests for getting student info', () => {
     })
 
     mysqlMock = sinon.mock(dbConnection)
+
+    results = []
+    mysqlMock.expects('query')
+      .atLeast(1)
+      .callsArgWith(1, null, results)
   })
 
   afterEach(() => {
@@ -78,19 +83,12 @@ describe('Integration tests for getting student info', () => {
   })
 
   it('should send error when no student id provided', async function () {
-    results = []
-    mysqlMock.expects('query')
-      .atLeast(1)
-      .callsArgWith(1, null, results)
+
     const response = await (await request(app).get('/student/info'))
     expect(response.statusCode).toBe(404)
   })
 
   it('should return student info', async function () {
-    results = []
-    mysqlMock.expects('query')
-      .atLeast(1)
-      .callsArgWith(1, null, results)
     id = {
       student_id: "1",
     }
@@ -109,6 +107,11 @@ describe('Integration tests for getting student history', () => {
     })
 
     mysqlMock = sinon.mock(dbConnection)
+
+    results = []
+    mysqlMock.expects('query')
+      .atLeast(1)
+      .callsArgWith(1, null, results)
   })
 
   afterEach(() => {
@@ -118,20 +121,13 @@ describe('Integration tests for getting student history', () => {
   })
 
   it('should send error when no student id provided', async function () {
-    results = []
-    mysqlMock.expects('query')
-      .atLeast(1)
-      .callsArgWith(1, null, results)
     id = {}
     const response = await (await request(app).get('/student/history'))
     expect(response.statusCode).toBe(404)
   })
 
   it('should return student history', async function () {
-    results = []
-    mysqlMock.expects('query')
-      .atLeast(1)
-      .callsArgWith(1, null, results)
+
     id = {
       student_id: "1",
     }
