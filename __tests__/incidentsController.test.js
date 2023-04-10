@@ -152,6 +152,10 @@ describe('should add an incident correctly', () => {
             date: '2023-03-16 11:38:17',
             imageUrl: '1.jpeg'
         }
+        sinon.stub(incidentHelper, "getRandomStudent").resolves(1);
+        sinon.stub(incidentHelper, "addIncident").returns(1);
+        sinon.stub(incidentHelper, "findRelatedStudents").resolves(1);
+
     })
 
     afterEach(() => {
@@ -167,10 +171,8 @@ describe('should add an incident correctly', () => {
     })
 
     it('should return properly with good headers', async () => {
-        sinon.stub(incidentHelper, "getRandomStudent").resolves(1);
-        sinon.stub(incidentHelper, "addIncident").returns(1);
+
         sinon.stub(incidentHelper, "addStudentIncident").resolves(1);
-        sinon.stub(incidentHelper, "findRelatedStudents").resolves(1);
         const response = await request(app).post('/incidents/add')
                                            .send(payload)
 
@@ -179,10 +181,7 @@ describe('should add an incident correctly', () => {
     })
 
     it('should return with bad request if previous methods fail', async () => {
-        sinon.stub(incidentHelper, "getRandomStudent").resolves(1);
-        sinon.stub(incidentHelper, "addIncident").returns(1);
         sinon.stub(incidentHelper, "addStudentIncident").resolves(0);
-        sinon.stub(incidentHelper, "findRelatedStudents").resolves(1);
 
         const response = await request(app).post('/incidents/add')
                                            .send(payload)
