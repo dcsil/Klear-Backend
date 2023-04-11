@@ -25,6 +25,11 @@ dotenv_path = Path('../.env')
 load_dotenv(dotenv_path=dotenv_path)
 APP_ID = os.getenv('APP_ID')
 AUTH = os.getenv('AUTH')
+IMAGEKIT_PRIVATE_KEY = os.getenv('IMAGEKIT_PRIVATE_KEY')
+IMAGEKIT_PUBLIC_KEY = os.getenv('IMAGEKIT_PUBLIC_KEY')
+IMAGEKIT_URL = os.getenv('IMAGEKIT_URL')
+ADD_INCIDENT_URL = os.getenv('ADD_INCIDENT_URL')
+ONE_SIGNAL_URL = os.getenv('ONE_SIGNAL_URL')
 
 if __name__ == '__main__':
     print(APP_ID, AUTH)
@@ -69,9 +74,9 @@ if __name__ == '__main__':
         outputs_sorted = np.sort(outputs, axis=None)
         print(outputs_sorted[-1], outputs_sorted[-2],)
         imagekit = ImageKit(
-            private_key='private_U1gQT7x7H70hYcbZa6c7yWdjO8U=',
-            public_key='public_lVoD7vrDinp9HXdqMibiUKM9CaY=',
-            url_endpoint='https://ik.imagekit.io/gglohtmqe'
+            private_key=IMAGEKIT_PRIVATE_KEY,
+            public_key=IMAGEKIT_PUBLIC_KEY,
+            url_endpoint=IMAGEKIT_URL
         )
         if outputs_sorted[-1] >= 1.3* outputs_sorted[-2]:
             label = CLASSES[np.argmax(outputs)]
@@ -94,7 +99,7 @@ if __name__ == '__main__':
                                               options=options)
 
                 print(cv2.imwrite(filename, frame))
-                url = 'http://3.142.235.3:3000/incidents/add'
+                url = ADD_INCIDENT_URL
                 incident = {'event': label, 'date': str(datetime.now()), 'imageUrl': filename}
                 x = requests.post(url, json=incident)
                 print(x.text)
