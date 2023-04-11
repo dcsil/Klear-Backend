@@ -32,8 +32,8 @@ IMAGEKIT_URL = os.getenv('IMAGEKIT_URL')
 ADD_INCIDENT_URL = os.getenv('ADD_INCIDENT_URL')
 ONE_SIGNAL_URL = os.getenv('ONE_SIGNAL_URL')
 
-if __name__ == '__main__':
-    print(APP_ID, AUTH)
+def main():
+    # print(APP_ID, AUTH)
     input_file = 'kids_crying.mp4'
     # input_file = 0
 
@@ -73,15 +73,16 @@ if __name__ == '__main__':
         net.setInput(blob)
         outputs = net.forward()
         outputs_sorted = np.sort(outputs, axis=None)
-        print(outputs_sorted[-1], outputs_sorted[-2],)
+
         imagekit = ImageKit(
             private_key=IMAGEKIT_PRIVATE_KEY,
             public_key=IMAGEKIT_PUBLIC_KEY,
             url_endpoint=IMAGEKIT_URL
         )
+
         if outputs_sorted[-1] >= 1.3* outputs_sorted[-2]:
             label = CLASSES[np.argmax(outputs)]
-            print(label)
+            # print(label)
             if label == 'crying' or label == 'doing aerobics' or label == 'zumba':
                 if label == 'doing aerobics' or label == 'zumba':
                     label = 'indoor sprint'
@@ -95,13 +96,16 @@ if __name__ == '__main__':
                 options = UploadFileRequestOptions(
                     folder='/incidents/',
                 )
+
                 result = imagekit.upload_file(file=jpg_as_text,  # required
                                               file_name=filename,  # required
                                               options=options)
-
-                print(cv2.imwrite(filename, frame))
+                
+                # print(result.response_metadata.raw)
+                # print(result.response_metadata.raw['name'])
+                # print(cv2.imwrite(filename, frame))
                 url = ADD_INCIDENT_URL
-                incident = {'event': label, 'date': str(datetime.now()), 'imageUrl': filename}
+                incident = {'event': label, 'date': str(datetime.now()), 'imageUrl': result.response_metadata.raw['name']}
                 x = requests.post(url, json=incident)
                 print(x.text)
 
@@ -114,8 +118,10 @@ if __name__ == '__main__':
 
                 req = requests.post(ONE_SIGNAL_URL, headers=header,
                                     data=json.dumps(payload))
+
                 print("notification", req)
                 time.sleep(180)
+
         else:
             label = ''
 
@@ -128,3 +134,6 @@ if __name__ == '__main__':
 
         if key == ord("q"):
             break
+
+if __name__ == '__main__':
+    main()
