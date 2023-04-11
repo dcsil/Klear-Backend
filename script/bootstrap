@@ -39,9 +39,18 @@ fi
 echo "==> Updating dev.json"
 if [ ! -f database/config/dev.json ]
 then
-  cp -rn database/config/dev.json.template database/config/dev.json
+  source .env
+  echo "{
+    \"dev\": {
+        \"host\": \"${MYSQL_HOST}\", 
+        \"user\": \"${MYSQL_USER}\",
+        \"password\": \"${MYSQL_PASSWORD}\",
+        \"database\": \"${MYSQL_DATABASE}\",
+        \"driver\": \"mysql\",
+        \"multipleStatements\": true
+    }, \"sql-file\": true
+}" >>  database/config/dev.json
 fi
 
 # Run DB Migrations
-db-migrate create SQL_ACTION_NAME --config ./database/config/dev.json
 db-migrate up --config ./database/config/dev.json
