@@ -20,6 +20,7 @@ import time
 from dotenv import load_dotenv
 from pathlib import Path
 from imagekitio import ImageKit
+from imagekitio.models.UploadFileRequestOptions import UploadFileRequestOptions
 
 dotenv_path = Path('../.env')
 load_dotenv(dotenv_path=dotenv_path)
@@ -91,7 +92,7 @@ if __name__ == '__main__':
                 retval, buffer = cv2.imencode('.jpg', frame)
                 jpg_as_text = base64.b64encode(buffer)
 
-                options = ImageKit.UploadFileRequestOptions(
+                options = UploadFileRequestOptions(
                     folder='/incidents/',
                 )
                 result = imagekit.upload_file(file=jpg_as_text,  # required
