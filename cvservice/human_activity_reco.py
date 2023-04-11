@@ -112,7 +112,7 @@ if __name__ == '__main__':
                            "included_segments": ["Subscribed Android Users"],
                            "contents": {"en": "Incident Detected: " + label}}
 
-                req = requests.post("https://onesignal.com/api/v1/notifications", headers=header,
+                req = requests.post(ONE_SIGNAL_URL, headers=header,
                                     data=json.dumps(payload))
                 print("notification", req)
                 time.sleep(180)
