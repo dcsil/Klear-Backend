@@ -28,15 +28,20 @@ fi
 echo "==> Installing npm dependencies…"
 npm install
 
-# Create Mysql Database and Tables
-echo "Setting up Mysql Database"
-# Read Password
-echo "Mysql Username (use root for default)":
-read -s username
-echo
-# Run Command
-mysql -u $username -p < ./db.sql
-
 # Make default .env if .env does not exist
 echo "==> Updating .env variables"
-cp -rn .env.template .env
+if [ ! -f .env ]
+then
+  cp -rn .env.template .env
+fi
+
+# Make default dev.json if it does not exist
+echo "==> Updating dev.json"
+if [ ! -f database/config/dev.json ]
+then
+  cp -rn database/config/dev.json.template database/config/dev.json
+fi
+
+# Run DB Migrations
+db-migrate create SQL_ACTION_NAME --config ./database/config/dev.json
+db-migrate up --config ./database/config/dev.json
