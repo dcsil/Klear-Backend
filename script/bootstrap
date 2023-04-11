@@ -24,6 +24,9 @@ if [ "$(uname -s)" = "Darwin" ]; then # Check if is used on MacOS
   }
 fi
 
+# python dependencies
+$DIR/bin/dependencies
+
 # Install npm dependencies
 echo "==> Installing npm dependencies…"
 npm install

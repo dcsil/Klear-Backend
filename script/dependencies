@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+install_python() {
+  echo "Installing Python"
+  if [ "$(uname)" == "Darwin" ]; then
+    brew install python3
+  else
+    sudo apt-get update
+    sudo apt-get install python3
+  fi
+}
+
+# install python 3.6
+command -v python > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+  echo "python already installed"
+else
+  install_python
+fi
+

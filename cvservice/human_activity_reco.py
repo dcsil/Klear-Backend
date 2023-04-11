@@ -4,6 +4,7 @@ import numpy as np
 import argparse
 import imutils
 import cv2
+import base64
 
 from glob import glob
 
@@ -18,6 +19,7 @@ import os
 import time
 from dotenv import load_dotenv
 from pathlib import Path
+from imagekitio import ImageKit
 
 dotenv_path = Path('../.env')
 load_dotenv(dotenv_path=dotenv_path)
@@ -66,6 +68,11 @@ if __name__ == '__main__':
         outputs = net.forward()
         outputs_sorted = np.sort(outputs, axis=None)
         print(outputs_sorted[-1], outputs_sorted[-2],)
+        imagekit = ImageKit(
+            private_key='private_U1gQT7x7H70hYcbZa6c7yWdjO8U=',
+            public_key='public_lVoD7vrDinp9HXdqMibiUKM9CaY=',
+            url_endpoint='https://ik.imagekit.io/gglohtmqe'
+        )
         if outputs_sorted[-1] >= 1.3* outputs_sorted[-2]:
             label = CLASSES[np.argmax(outputs)]
             print(label)
@@ -74,15 +81,21 @@ if __name__ == '__main__':
                     label = 'indoor sprint'
 
                 os.chdir('../upload')
-                filename =  label + str(datetime.now()) + '.jpg'
+                filename =  label + datetime.now().strftime("%Y_%m_%d_%H_%M_%S") + '.jpg'
+
+                retval, buffer = cv2.imencode('.jpg', frame)
+                jpg_as_text = base64.b64encode(buffer)
+
+                options = ImageKit.UploadFileRequestOptions(
+                    folder='/incidents/',
+                )
+                result = imagekit.upload_file(file=jpg_as_text,  # required
+                                              file_name=filename,  # required
+                                              options=options)
 
                 print(cv2.imwrite(filename, frame))
                 url = 'http://3.142.235.3:3000/incidents/add'
-                if label == 'indoor sprint':
-                    image_url = 'indoor_sprint.jpg'
-                if label == 'crying':
-                    image_url = 'crying.jpg'
-                incident = {'event': label, 'date': str(datetime.now()), 'imageUrl': image_url}
+                incident = {'event': label, 'date': str(datetime.now()), 'imageUrl': filename}
                 x = requests.post(url, json=incident)
                 print(x.text)
 
