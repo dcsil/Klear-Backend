@@ -49,7 +49,7 @@ then
         \"driver\": \"mysql\",
         \"multipleStatements\": true
     }, \"sql-file\": true
-}" >>  database/config/dev.json
+}" >  ./database/config/dev.json
 fi
 
 # Run DB Migrations
