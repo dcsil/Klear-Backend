@@ -73,5 +73,6 @@ fi
 
 # Run DB Migrations
 echo "==> Running DB Migration, Please make sure you have the DB as specified in your .env"
+npm install migrate -g
 pwd
-db-migrate up --config database/config/dev.json
+db-migrate up --config dev.json
