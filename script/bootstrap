@@ -41,6 +41,7 @@ echo "==> Updating dev.json"
 if [ ! -f database/config/dev.json ]
 then
   source .env
+  touch ./database/config/dev.json
   echo "{
     \"dev\": {
         \"host\": \"${MYSQL_HOST}\", 
