@@ -24,6 +24,43 @@ if [ "$(uname -s)" = "Darwin" ]; then # Check if is used on MacOS
   }
 fi
 
+# python dependencies
+echo "Installing Python"
+if [ "$(uname)" == "Darwin" ]; then
+brew install python3
+pip install numpy
+pip install imutils
+pip install opencv-python
+pip install base64
+pip install argparse
+pip install IPython
+pip install tqdm
+pip install subprocess
+pip install requests
+pip install datetime
+pip install python-dotenv
+pip install pathlib
+pip install django-imagekit
+pip install imagekitio
+else
+sudo apt-get update
+sudo apt-get install python3
+pip install numpy
+pip install imutils
+pip install opencv-python
+pip install base64
+pip install argparse
+pip install IPython
+pip install tqdm
+pip install subprocess
+pip install requests
+pip install datetime
+pip install python-dotenv
+pip install pathlib
+pip install django-imagekit
+pip install imagekitio
+fi
+
 # Install npm dependencies
 echo "==> Installing npm dependencies…"
 npm install
