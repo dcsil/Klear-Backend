@@ -34,8 +34,8 @@ ONE_SIGNAL_URL = os.getenv('ONE_SIGNAL_URL')
 
 def main():
     # print(APP_ID, AUTH)
-    input_file = 'kids_crying.mp4'
-    # input_file = 0
+    # input_file = 'kids_crying.mp4'
+    input_file = 0
 
     args = {"classes": "action_recognition_kinetics.txt", "model": "resnet-34_kinetics.onnx", "input": input_file}
 
