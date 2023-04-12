@@ -40,6 +40,7 @@ fi
 # Install npm dependencies
 echo "==> Installing npm dependencies…"
 npm install
+npm install -g db-migrate
 
 # Make default .env if .env does not exist
 echo "==> Updating .env variables"
@@ -72,7 +73,5 @@ then
 fi
 
 # Run DB Migrations
-echo "==> Running DB Migration, Please make sure you have the DB as specified in your .env"
-npm install -g db-migrate
-pwd
-db-migrate up --config dev.json
+echo "==== Done ==================================================================================================================="
+echo "==> Run `db-migrate up --config database/config/dev.json` for DB migration. ================================================="
