@@ -3,6 +3,7 @@ var router = express.Router();
 const Sentry = require("@sentry/node");
 const dbConnection = require('../config/dbConnection');
 const verifyAccessToken = require('../config/jwtHelper').verifyAccessToken
+const log = require('npmlog')
 
 /* Health check */
 exports.health = (req,res) => {
@@ -17,6 +18,7 @@ exports.all = (req, res) => {
   dbConnection.query("SELECT * FROM students ORDER BY first_name",
   (err, results, fields) => {
     if (!err) {
+      log.info("students", "Getting all students!")
       res.send(results);
     } else {
       Sentry.captureException(new Error("When getting all students: "+err));
@@ -33,6 +35,7 @@ exports.info = (req, res) => {
   dbConnection.query("SELECT * FROM students WHERE student_id = " + req.params.student_id,
   (err, results, fields) => {
     if (!err) {
+      log.info("students", "Retrieved the student")
       res.send(results);
     } else {
       Sentry.captureException(new Error("When getting student info: "+err));
@@ -66,6 +69,7 @@ exports.history = (req, res) => {
         activities[i]["type"] = "activity";
         results.push(activities[i]);
       }
+      log.info("students", "returning student history")
       res.send(results);
     } else {
       Sentry.captureException(new Error("When getting student activities: "+ err));

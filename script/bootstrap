@@ -24,6 +24,19 @@ if [ "$(uname -s)" = "Darwin" ]; then # Check if is used on MacOS
   }
 fi
 
+# python dependencies
+echo "Installing Python"
+if [ "$(uname)" == "Darwin" ]; then
+brew install python3
+pip3 freeze > requirements.txt
+pip3 install -r requirements.txt
+else
+sudo apt-get update
+sudo apt-get install python3
+pip3 freeze > requirements.txt
+pip3 install -r requirements.txt
+fi
+
 # Install npm dependencies
 echo "==> Installing npm dependencies…"
 npm install

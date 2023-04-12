@@ -4,6 +4,7 @@ import numpy as np
 import argparse
 import imutils
 import cv2
+import base64
 
 from glob import glob
 
@@ -18,16 +19,23 @@ import os
 import time
 from dotenv import load_dotenv
 from pathlib import Path
+from imagekitio import ImageKit
+from imagekitio.models.UploadFileRequestOptions import UploadFileRequestOptions
 
 dotenv_path = Path('../.env')
 load_dotenv(dotenv_path=dotenv_path)
 APP_ID = os.getenv('APP_ID')
 AUTH = os.getenv('AUTH')
+IMAGEKIT_PRIVATE_KEY = os.getenv('IMAGEKIT_PRIVATE_KEY')
+IMAGEKIT_PUBLIC_KEY = os.getenv('IMAGEKIT_PUBLIC_KEY')
+IMAGEKIT_URL = os.getenv('IMAGEKIT_URL')
+ADD_INCIDENT_URL = os.getenv('ADD_INCIDENT_URL')
+ONE_SIGNAL_URL = os.getenv('ONE_SIGNAL_URL')
 
-if __name__ == '__main__':
-    print(APP_ID, AUTH)
-    input_file = 'kids_crying.mp4'
-    # input_file = 0
+def main():
+    # print(APP_ID, AUTH)
+    # input_file = 'kids_crying.mp4'
+    input_file = 0
 
     args = {"classes": "action_recognition_kinetics.txt", "model": "resnet-34_kinetics.onnx", "input": input_file}
 
@@ -65,24 +73,39 @@ if __name__ == '__main__':
         net.setInput(blob)
         outputs = net.forward()
         outputs_sorted = np.sort(outputs, axis=None)
-        print(outputs_sorted[-1], outputs_sorted[-2],)
+
+        imagekit = ImageKit(
+            private_key=IMAGEKIT_PRIVATE_KEY,
+            public_key=IMAGEKIT_PUBLIC_KEY,
+            url_endpoint=IMAGEKIT_URL
+        )
+
         if outputs_sorted[-1] >= 1.3* outputs_sorted[-2]:
             label = CLASSES[np.argmax(outputs)]
-            print(label)
+            # print(label)
             if label == 'crying' or label == 'doing aerobics' or label == 'zumba':
                 if label == 'doing aerobics' or label == 'zumba':
                     label = 'indoor sprint'
 
                 os.chdir('../upload')
-                filename =  label + str(datetime.now()) + '.jpg'
+                filename =  label + datetime.now().strftime("%Y_%m_%d_%H_%M_%S") + '.jpg'
 
-                print(cv2.imwrite(filename, frame))
-                url = 'http://3.142.235.3:3000/incidents/add'
-                if label == 'indoor sprint':
-                    image_url = 'indoor_sprint.jpg'
-                if label == 'crying':
-                    image_url = 'crying.jpg'
-                incident = {'event': label, 'date': str(datetime.now()), 'imageUrl': image_url}
+                retval, buffer = cv2.imencode('.jpg', frame)
+                jpg_as_text = base64.b64encode(buffer)
+
+                options = UploadFileRequestOptions(
+                    folder='/incidents/',
+                )
+
+                result = imagekit.upload_file(file=jpg_as_text,  # required
+                                              file_name=filename,  # required
+                                              options=options)
+                
+                # print(result.response_metadata.raw)
+                # print(result.response_metadata.raw['name'])
+                # print(cv2.imwrite(filename, frame))
+                url = ADD_INCIDENT_URL
+                incident = {'event': label, 'date': str(datetime.now()), 'imageUrl': result.response_metadata.raw['name']}
                 x = requests.post(url, json=incident)
                 print(x.text)
 
@@ -93,10 +116,12 @@ if __name__ == '__main__':
                            "included_segments": ["Subscribed Android Users"],
                            "contents": {"en": "Incident Detected: " + label}}
 
-                req = requests.post("https://onesignal.com/api/v1/notifications", headers=header,
+                req = requests.post(ONE_SIGNAL_URL, headers=header,
                                     data=json.dumps(payload))
+
                 print("notification", req)
                 time.sleep(180)
+
         else:
             label = ''
 
@@ -109,3 +134,6 @@ if __name__ == '__main__':
 
         if key == ord("q"):
             break
+
+if __name__ == '__main__':
+    main()
