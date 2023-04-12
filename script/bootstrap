@@ -46,8 +46,6 @@ echo "==> Updating .env variables"
 cd ..
 if [ ! -f .env ]
 then
-  echo "current path"
-  pwd
   cp -rn .env.template .env
 fi
 
@@ -56,9 +54,11 @@ echo "==> Updating dev.json"
 if [ ! -f database/config/dev.json ]
 then
   source .env
-  echo "current path"
   pwd
-  touch ./database/config/dev.json
+  mkdir -p database
+  mkdir -p database/config
+  cd database/config
+  touch dev.json
   echo "{
     \"dev\": {
         \"host\": \"${MYSQL_HOST}\", 
@@ -68,9 +68,10 @@ then
         \"driver\": \"mysql\",
         \"multipleStatements\": true
     }, \"sql-file\": true
-}" >  ./database/config/dev.json
+  }" >  dev.json
 fi
 
 # Run DB Migrations
 echo "==> Running DB Migration, Please make sure you have the DB as specified in your .env"
-db-migrate up --config ./database/config/dev.json
+pwd
+db-migrate up --config database/config/dev.json
