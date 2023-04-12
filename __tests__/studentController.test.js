@@ -89,9 +89,6 @@ describe('Integration tests for getting student info', () => {
   })
 
   it('should return student info', async function () {
-    id = {
-      student_id: "1",
-    }
     const response = await (await request(app).get('/student/info/1'))
     expect(response.statusCode).toBe(200)
 
@@ -121,16 +118,12 @@ describe('Integration tests for getting student history', () => {
   })
 
   it('should send error when no student id provided', async function () {
-    id = {}
     const response = await (await request(app).get('/student/history'))
     expect(response.statusCode).toBe(404)
   })
 
   it('should return student history', async function () {
 
-    id = {
-      student_id: "1",
-    }
     const response = await (await request(app).get('/student/history/1'))
     expect(response.statusCode).toBe(200)
 
