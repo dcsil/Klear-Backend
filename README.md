@@ -74,4 +74,3 @@ To start or stop the server from running:
 ### Testing User
 - Use karen.smith@gmail.com with the password "pw" to login to a generic account.
 
-- For demo purposes, clicking on the returning user "Karen" will automatically log in without needing to input password. 
