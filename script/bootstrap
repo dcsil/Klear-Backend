@@ -33,6 +33,8 @@ echo "==> Updating .env variables"
 cd ..
 if [ ! -f .env ]
 then
+  echo "current path"
+  pwd
   cp -rn .env.template .env
 fi
 
@@ -41,6 +43,8 @@ echo "==> Updating dev.json"
 if [ ! -f database/config/dev.json ]
 then
   source .env
+  echo "current path"
+  pwd
   touch ./database/config/dev.json
   echo "{
     \"dev\": {
