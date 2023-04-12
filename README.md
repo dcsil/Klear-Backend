@@ -42,6 +42,16 @@
 - `db-migrate down --config./database/config/dev.json` to drop all migrations
 - `mysql -u root -p` to log into mysql
 
+### To run the CV/ML service
+- Download the file `resnet-34_kinetics.onnx` from our Google Drive (GitHub has a file size limit)
+- Place `resnet-34_kinetics.onnx` and other video files you want to run the server on in the folder `cvservice`
+- Go into the folder `cvservice` by running `cd cvservice` 
+- Run `python3 ./human_activity_reco.py`
+
+
+## Testing User
+- Use karen.smith@gmail.com with the password "pw" to login to a generic account. 
+
 ## Authentication Serivce Set up
 For authentication, we use jwt to create an access token. For dev purposes, each dev will need to set up their own ACCESS_TOKEN_SECRET in their .env file. To do so:
 - run ```node```
