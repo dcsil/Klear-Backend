@@ -30,7 +30,7 @@ npm install
 
 # Make default .env if .env does not exist
 echo "==> Updating .env variables"
-# cd ..
+cd ..
 if [ ! -f .env ]
 then
   cp -rn .env.template .env
