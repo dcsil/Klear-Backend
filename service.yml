@@ -14,5 +14,7 @@ docs:
 commands:
   bootstrap: ./script/bootstrap
   database: mysql.server start && mysql -u "username" -p "password"
-  server: npm start
-  test: npm run test
+  backend_server: npm start
+  backend test: npm run test
+  computer_vision_server: python3 ./human_activity_reco.py
+
