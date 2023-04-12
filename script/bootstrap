@@ -74,4 +74,4 @@ fi
 
 # Run DB Migrations
 echo "==== Done ==================================================================================================================="
-echo "==> Run `db-migrate up --config database/config/dev.json` for DB migration. ================================================="
+echo "==> Run \"db-migrate up --config database/config/dev.json\" for DB migration. ================================================="
