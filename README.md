@@ -42,7 +42,7 @@
 - `db-migrate down --config./database/config/dev.json` to drop all migrations
 - `mysql -u root -p` to log into mysql
 
-### To run the CV/ML service
+## To run the CV/ML service
 - Download the file `resnet-34_kinetics.onnx` from our Google Drive(https://drive.google.com/drive/folders/14O32x--6oFAjRydepzN3o3ghKVzk1EkU) as GitHub has a file size limit
 - Place `resnet-34_kinetics.onnx` and other video files you want to run the server on in the folder `cvservice`
 - Go into the folder `cvservice` by running `cd cvservice` 

@@ -28,37 +28,13 @@ fi
 echo "Installing Python"
 if [ "$(uname)" == "Darwin" ]; then
 brew install python3
-pip install numpy
-pip install imutils
-pip install opencv-python
-pip install base64
-pip install argparse
-pip install IPython
-pip install tqdm
-pip install subprocess
-pip install requests
-pip install datetime
-pip install python-dotenv
-pip install pathlib
-pip install django-imagekit
-pip install imagekitio
+pip3 freeze > requirements.txt
+pip3 install -r requirements.txt
 else
 sudo apt-get update
 sudo apt-get install python3
-pip install numpy
-pip install imutils
-pip install opencv-python
-pip install base64
-pip install argparse
-pip install IPython
-pip install tqdm
-pip install subprocess
-pip install requests
-pip install datetime
-pip install python-dotenv
-pip install pathlib
-pip install django-imagekit
-pip install imagekitio
+pip3 freeze > requirements.txt
+pip3 install -r requirements.txt
 fi
 
 # Install npm dependencies
@@ -70,8 +46,6 @@ echo "==> Updating .env variables"
 cd ..
 if [ ! -f .env ]
 then
-  echo "current path"
-  pwd
   cp -rn .env.template .env
 fi
 
@@ -80,9 +54,11 @@ echo "==> Updating dev.json"
 if [ ! -f database/config/dev.json ]
 then
   source .env
-  echo "current path"
   pwd
-  touch ./database/config/dev.json
+  mkdir -p database
+  mkdir -p database/config
+  cd database/config
+  touch dev.json
   echo "{
     \"dev\": {
         \"host\": \"${MYSQL_HOST}\", 
@@ -92,9 +68,11 @@ then
         \"driver\": \"mysql\",
         \"multipleStatements\": true
     }, \"sql-file\": true
-}" >  ./database/config/dev.json
+  }" >  dev.json
 fi
 
 # Run DB Migrations
 echo "==> Running DB Migration, Please make sure you have the DB as specified in your .env"
-db-migrate up --config ./database/config/dev.json
+npm install -g db-migrate
+pwd
+db-migrate up --config dev.json
