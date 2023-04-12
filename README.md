@@ -1,6 +1,6 @@
 ## Setup
-1. Make sure you have a MySQL username and password, and make sure the MySQL server is running. 
-2. Run ```./script/bootstrap```.
+1. Run ```./script/bootstrap```.
+2. Make sure you have a MySQL username and password, and make sure the MySQL server is running.
 3. Ensure .env's information is correct from bootstrap for db connection. Follow instructions under "Authentication Service Set Up" to get ```ACCESS_TOKEN_SECRET```
 4. Ensure a database/config/dev.json file is created with the correct information to connect to your local db. This file is used to run db migrations. 
     - ONLY IF NOT CREATED PROPERLY: Follow instructions under "Migrations" to set up properly. And then run ```db-migrate up --config ./database/config/dev.json```
