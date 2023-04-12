@@ -30,6 +30,7 @@ npm install
 
 # Make default .env if .env does not exist
 echo "==> Updating .env variables"
+cd ..
 if [ ! -f .env ]
 then
   cp -rn .env.template .env
@@ -53,4 +54,5 @@ then
 fi
 
 # Run DB Migrations
+echo "==> Running DB Migration, Please make sure you have the DB as specified in your .env"
 db-migrate up --config ./database/config/dev.json
