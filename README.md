@@ -1,7 +1,7 @@
 ## Setup
-1. Make sure you have a MySQL username and password, and make sure the MySQL server is running. 
+1. Ensure .env's information is correct from bootstrap for db connection. Follow instructions under "Authentication Service Set Up" to get ```ACCESS_TOKEN_SECRET```
 2. Run ```./script/bootstrap```.
-3. Ensure .env's information is correct from bootstrap for db connection. Follow instructions under "Authentication Service Set Up" to get ```ACCESS_TOKEN_SECRET```
+3. Make sure you have a MySQL username and password, and make sure the MySQL server is running.
 4. Ensure a database/config/dev.json file is created with the correct information to connect to your local db. This file is used to run db migrations. 
     - ONLY IF NOT CREATED PROPERLY: Follow instructions under "Migrations" to set up properly. And then run ```db-migrate up --config ./database/config/dev.json```
 5. Start the mysql server ```mysql start```
@@ -43,7 +43,7 @@
 - `mysql -u root -p` to log into mysql
 
 ## To run the CV/ML service
-- Download the file `resnet-34_kinetics.onnx` from our Google Drive (GitHub has a file size limit)
+- Download the file `resnet-34_kinetics.onnx` from our Google Drive(https://drive.google.com/drive/folders/14O32x--6oFAjRydepzN3o3ghKVzk1EkU) as GitHub has a file size limit
 - Place `resnet-34_kinetics.onnx` and other video files you want to run the server on in the folder `cvservice`
 - Go into the folder `cvservice` by running `cd cvservice` 
 - Run `python3 ./human_activity_reco.py`
