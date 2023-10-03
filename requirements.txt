@@ -37,6 +37,6 @@ sqlparse==0.4.3
 stack-data==0.6.2
 tqdm==4.65.0
 traitlets==5.9.0
-urllib3==1.26.15
+urllib3==1.26.17
 wcwidth==0.2.6
 zope.interface==6.0
